@@ -37,7 +37,35 @@ import { MyDto } from '@generated/swagger';
 
 ### Example
 
-Below is the example output from [public.prisma](./public.prisma):
+Below is the output generated from the project's [public.prisma](./public.prisma):
+```
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native"]
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+  schemas  = ["public"]
+}
+
+generator nestJsSwagger {
+  provider = "./dist/prisma-generator-nestjs-swagger.js"
+}
+
+model User {
+  id                   Int                    @id @default(autoincrement())
+  email                String?                @db.VarChar(512)
+  password             String?                @db.VarChar(512)
+  createdAt            DateTime?              @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime?              @map("updated_at") @db.Timestamptz(6)
+
+  @@map("user")
+  @@schema("public")
+}
+```
 
 `UserDto.ts`
 ```typescript
