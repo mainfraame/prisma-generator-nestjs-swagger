@@ -1,0 +1,27 @@
+{
+  "jsc": {
+    "target": "es2020",
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "transform": {
+      "optimizer": {
+        "simplify": true
+      },
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    },
+    "keepClassNames": true
+  },
+  "module": {
+    "type": "commonjs",
+    "strict": false
+  },
+  "env": {
+    "loose": true,
+    "forceAllTransforms": true
+  },
+  "sourceMaps": "inline",
+  "minify": true
+}
