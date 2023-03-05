@@ -26,6 +26,7 @@ export async function generateDtos(dmmf, outputPath) {
     const content = `
       import { ApiProperty } from '@nestjs/swagger';
 
+      import { Transform } from 'class-transformer';
       import { IsDate, IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
       
       export class ${model.name}Dto {

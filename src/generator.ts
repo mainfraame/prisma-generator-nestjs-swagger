@@ -47,12 +47,10 @@ generatorHandler({
               module: 'index.js',
               types: 'index.ts',
               license: 'MIT',
-              engines: {
-                node: '>=16.0'
-              },
-              dependencies: {
+              peerDependencies: {
                 '@nestjs/swagger': '*',
-                'class-generator': '*'
+                'class-generator': '*',
+                'class-transformer': '*'
               },
               sideEffects: false
             },

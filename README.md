@@ -9,6 +9,8 @@ prisma crud operations, including:
 - FindUnique
 - Update
 
+For the `FindMany` and `FindUnique` dtos it includes `class-transformer` for use with query parameters.
+
 ### Getting Started
 
 ```
@@ -71,6 +73,7 @@ model User {
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDate,
@@ -138,6 +141,7 @@ export class FindManyUserDto {
   @IsString()
   email?: string;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: true })
   @IsNumber()
   id: number;
@@ -152,6 +156,7 @@ export class FindManyUserDto {
 }
 
 export class FindUniqueUserDto {
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: true })
   @IsNumber()
   id: number;

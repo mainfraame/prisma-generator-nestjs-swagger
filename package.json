@@ -1,7 +1,7 @@
 {
   "name": "prisma-generator-nestjs-swagger",
   "description": "generates basic dto classes for use with @nestjs/swagger and class-validator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "bin": "./dist/prisma-generator-nestjs-swagger.js",
   "engines": {
@@ -38,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
     "class-validator": "^0.14.0",
+    "class-transformer": "^0.5.1",
     "eslint": "^8.32.0",
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
