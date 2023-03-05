@@ -11,7 +11,7 @@ datasource db {
 }
 
 generator nestJsSwagger {
-  provider = "./dist/bin.js"
+  provider = "./dist/prisma-generator-nestjs-swagger.js"
 }
 
 model User {

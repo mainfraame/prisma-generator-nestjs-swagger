@@ -1,7 +1,7 @@
 {
   "name": "prisma-generator-nestjs-swagger",
   "description": "generates basic dto classes for use with @nestjs/swagger and class-validator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "bin": "./dist/prisma-generator-nestjs-swagger.js",
   "engines": {
@@ -12,7 +12,7 @@
     "src"
   ],
   "scripts": {
-    "build": "npx spack && yarn build:chmod && yarn build:shebang",
+    "build": "npx spack && yarn build:shebang && yarn build:chmod",
     "build:chmod": "chmod +x ./dist/prisma-generator-nestjs-swagger.js",
     "build:shebang": "echo \"#!/usr/bin/env node\"|cat - ./dist/prisma-generator-nestjs-swagger.js > /tmp/out && mv /tmp/out ./dist/prisma-generator-nestjs-swagger.js",
     "dev": "npx tsc -w",
