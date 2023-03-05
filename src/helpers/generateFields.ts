@@ -14,7 +14,7 @@ export function generateFields(fields) {
 
       const optional = field.isRequired ? '' : '?';
 
-      return `@ApiProperty({ required: ${!field.isRequired} })
+      return `@ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
       ${field.name}${optional}: ${tsType};`;
     })

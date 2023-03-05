@@ -10,17 +10,16 @@ datasource db {
   schemas  = ["public"]
 }
 
-generator myGenerator {
+generator nestJsSwagger {
   provider = "./dist/bin.js"
-
 }
 
 model User {
-  userId               Int                    @id @default(autoincrement()) @map("user_id")
+  id                   Int                    @id @default(autoincrement())
   email                String?                @db.VarChar(512)
   password             String?                @db.VarChar(512)
-  createdAt            DateTime               @map("created_at") @db.Timestamptz(6)
-  updatedAt            DateTime               @map("updated_at") @db.Timestamptz(6)
+  createdAt            DateTime?              @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime?              @map("updated_at") @db.Timestamptz(6)
 
   @@map("user")
   @@schema("public")
