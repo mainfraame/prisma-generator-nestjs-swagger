@@ -1,7 +1,7 @@
 # prisma-generator-nestjs-swagger
 
 This generator is used to create all the possible dto classes you'll need for 
-prisma crud operations. Include:
+prisma crud operations, including:
 
 - Create
 - Delete
