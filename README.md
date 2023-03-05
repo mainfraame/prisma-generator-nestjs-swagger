@@ -63,6 +63,7 @@ model User {
   password             String?                @db.VarChar(512)
   createdAt            DateTime?              @map("created_at") @db.Timestamptz(6)
   updatedAt            DateTime?              @map("updated_at") @db.Timestamptz(6)
+  config               Json?
 
   @@map("user")
   @@schema("public")
@@ -72,6 +73,7 @@ model User {
 `UserDto.ts`
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 
 import { Transform } from 'class-transformer';
 import {
@@ -83,6 +85,9 @@ import {
 } from 'class-validator';
 
 export class UserDto {
+  @ApiProperty({ required: false })
+  config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
+
   @ApiProperty({ required: false })
   @IsDate()
   createdAt?: Date;
@@ -105,6 +110,9 @@ export class UserDto {
 }
 
 export class CreateUserDto {
+  @ApiProperty({ required: false })
+  config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
+
   @ApiProperty({ required: false })
   @IsDate()
   createdAt?: Date;
@@ -133,6 +141,9 @@ export class DeleteWhereUserDto {
 }
 
 export class FindManyUserDto {
+  @ApiProperty({ required: false })
+  config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
+
   @ApiProperty({ required: false })
   @IsDate()
   createdAt?: Date;
@@ -178,6 +189,9 @@ export class UpdateUserDto {
   @ApiProperty({ required: false })
   @IsDate()
   updatedAt?: Date;
+
+  @ApiProperty({ required: false })
+  config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
 }
 
 export class UpdateWhereUserDto {

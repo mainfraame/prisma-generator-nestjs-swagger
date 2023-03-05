@@ -4,7 +4,7 @@ const FieldTsTypes = {
   DateTime: 'Date',
   Decimal: 'number',
   Int: 'number',
-  Json: 'Record<string, unknown>',
+  Json: 'Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue',
   String: 'string',
   Float: 'number'
 };

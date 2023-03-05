@@ -23,9 +23,22 @@ export async function generateDtos(dmmf, outputPath) {
     const updateDataFields = generateUpdateDataFields(model.fields);
     const updateWhereFields = generateUpdateWhereFields(model.fields, model);
 
+    const includePrisma = [
+      fields,
+      createFields,
+      deleteWhereFields,
+      findManyFields,
+      findUniqueFields,
+      updateWhereFields,
+      updateDataFields
+    ].some((code) => {
+      return code.includes('Prisma');
+    });
+
     const content = `
       import { ApiProperty } from '@nestjs/swagger';
-
+      ${includePrisma ? `import { Prisma } from '@prisma/client';` : ''}
+      
       import { Transform } from 'class-transformer';
       import { IsDate, IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
       
