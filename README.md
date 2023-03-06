@@ -10,7 +10,8 @@ prisma crud operations, while also supporting open-api specs, including:
 - Update
 
 It includes an extended ValidationPipe serializer that will transform the DTO to
-match the expected prisma query object. It includes support for filtering and ordering.
+match the expected prisma query object. It includes support for pagination (skip/take or cursor),
+filtering and ordering.
 
 ### Getting Started
 
