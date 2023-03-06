@@ -1,10 +1,10 @@
 const ClassValidators = {
   BigInt: '@IsNumber()',
-  Boolean: '@IsBoolean()',
   Decimal: '@IsNumber()',
   Float: '@IsNumber()',
-  DateTime: '@IsDate()',
   Int: '@IsNumber()',
+  Boolean: '@IsBoolean()',
+  DateTime: '@IsDate()',
   String: '@IsString()'
 };
 

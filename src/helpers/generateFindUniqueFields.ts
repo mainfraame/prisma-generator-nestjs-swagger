@@ -4,9 +4,11 @@ import { mapPrismaTypeToClassValidator } from './mapPrismaTypeToClassValidator';
 import { mapPrismaTypeToTsType } from './mapPrismaTypeToTsType';
 import { mapTransformerType } from './mapTransformerType';
 
-export function generateFindUniqueFields(fields, model) {
+export function generateFindUniqueFields(model) {
   const parsedFields = orderBy(
-    fields.filter((field) => !field.relationName).filter((field) => field.isId),
+    model.fields
+      .filter((field) => !field.relationName)
+      .filter((field) => field.isId),
     ['name']
   );
 
@@ -14,12 +16,12 @@ export function generateFindUniqueFields(fields, model) {
     ? parsedFields
     : orderBy(
         (model.primaryKey?.fields ?? []).map((field) =>
-          fields.find(({ name }) => name === field)
+          model.fields.find(({ name }) => name === field)
         ),
         ['name']
       );
 
-  return finalFields
+  const apiFields = finalFields
     .map((field) => {
       const classValidator = mapPrismaTypeToClassValidator(field.type);
       const tsType = mapPrismaTypeToTsType(field.type);
@@ -31,8 +33,14 @@ export function generateFindUniqueFields(fields, model) {
       ${transformType ? `@Transform(${transformType})` : ''}
       @ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
-      ${field.name}${optional}: ${tsType};
+      private ${field.name}${optional}: ${tsType};
       `;
     })
     .join('\n\n');
+
+  return `
+    ${apiFields}
+    
+    where?: Prisma.${model.name}WhereUniqueInput;
+  `;
 }

@@ -22,6 +22,6 @@
     "loose": true,
     "forceAllTransforms": true
   },
-  "sourceMaps": "inline",
+  "sourceMaps": true,
   "minify": true
 }

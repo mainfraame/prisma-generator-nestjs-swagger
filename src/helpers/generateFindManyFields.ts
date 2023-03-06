@@ -1,27 +1,29 @@
-import { orderBy } from 'lodash';
+import { generateBooleanFields } from './generateBooleanFields';
+import { generateDateFields } from './generateDateFields';
+import { generateJsonFields } from './generateJsonFields';
+import { generateNumericFields } from './generateNumericFields';
+import { generateOrderByFields } from './generateOrderByFields';
+import { generatePaginationFields } from './generatePaginationFields';
+import { generateStringFields } from './generateStringFields';
 
-import { mapPrismaTypeToClassValidator } from './mapPrismaTypeToClassValidator';
-import { mapPrismaTypeToTsType } from './mapPrismaTypeToTsType';
-import { mapTransformerType } from './mapTransformerType';
-
-export function generateFindManyFields(fields) {
-  return orderBy(
-    fields.filter((field) => !field.relationName),
-    ['name']
-  )
-    .map((field) => {
-      const classValidator = mapPrismaTypeToClassValidator(field.type);
-      const tsType = mapPrismaTypeToTsType(field.type);
-      const transformType = mapTransformerType(field.type);
-
-      const optional = field.isRequired ? '' : '?';
-
-      return `
-      ${transformType ? `@Transform(${transformType})` : ''}
-      @ApiProperty({ required: ${field.isRequired} })
-      ${classValidator ? `${classValidator}\n` : ''}
-      ${field.name}${optional}: ${tsType};
-      `;
-    })
+export function generateFindManyFields(model) {
+  const apiProperties = [
+    generateBooleanFields(model, true),
+    generateJsonFields(model, true),
+    generateDateFields(model, true),
+    generateNumericFields(model, true),
+    generateStringFields(model, true),
+    generateOrderByFields(model, true),
+    generatePaginationFields(model, true)
+  ]
+    .filter((b) => b)
     .join('\n\n');
+
+  return `
+    ${apiProperties}
+
+    where?: Prisma.${model.name}WhereInput;
+        
+    orderBy?: Prisma.Enumerable<Prisma.${model.name}OrderByWithRelationInput>;
+  `;
 }

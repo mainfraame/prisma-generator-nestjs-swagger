@@ -3,9 +3,9 @@ import { orderBy } from 'lodash';
 import { mapPrismaTypeToClassValidator } from './mapPrismaTypeToClassValidator';
 import { mapPrismaTypeToTsType } from './mapPrismaTypeToTsType';
 
-export function generateCreateFields(fields) {
+export function generateCreateFields(model) {
   return orderBy(
-    fields.filter((field) => !field.relationName),
+    model.fields.filter((field) => !field.relationName),
     ['name']
   )
     .map((field) => {

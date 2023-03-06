@@ -3,9 +3,11 @@ import { orderBy } from 'lodash';
 import { mapPrismaTypeToClassValidator } from './mapPrismaTypeToClassValidator';
 import { mapPrismaTypeToTsType } from './mapPrismaTypeToTsType';
 
-export function generateDeleteWhereFields(fields, model) {
+export function generateDeleteWhereFields(model) {
   const parsedFields = orderBy(
-    fields.filter((field) => !field.relationName).filter((field) => field.isId),
+    model.fields
+      .filter((field) => !field.relationName)
+      .filter((field) => field.isId),
     ['name']
   );
 
@@ -13,7 +15,7 @@ export function generateDeleteWhereFields(fields, model) {
     ? parsedFields
     : orderBy(
         (model.primaryKey?.fields ?? []).map((field) =>
-          fields.find(({ name }) => name === field)
+          model.fields.find(({ name }) => name === field)
         ),
         ['name']
       );
