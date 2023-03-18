@@ -1,7 +1,7 @@
 {
   "name": "prisma-generator-nestjs-swagger",
   "description": "generates basic dto classes for use with @nestjs/swagger and class-validator",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "license": "MIT",
   "bin": "./dist/prisma-generator-nestjs-swagger.js",
   "engines": {
@@ -48,10 +48,12 @@
   },
   "author": "dayne.mentier@gmail.com",
   "keywords": [
+    "nestjs",
     "@nestjs/swagger",
     "class-validator",
     "prisma",
-    "generator"
+    "generator",
+    "crud"
   ],
   "prettier": {
     "arrowParens": "always",

@@ -8,6 +8,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { performance } from 'perf_hooks';
 
+import { VERSION } from './constants';
 import { generateDtos } from './helpers/generateDtos';
 import { log } from './utils/log';
 
@@ -40,8 +41,8 @@ generatorHandler({
           JSON.stringify(
             {
               name: '@generated/swagger',
-              description: 'auto generated nestjs swagger dtos',
-              version: '1.0.0',
+              description: 'auto generated nestjs swagger DTOs',
+              version: VERSION,
               main: './dist/index.cjs',
               module: './dist/index.js',
               types: './src/index.ts',

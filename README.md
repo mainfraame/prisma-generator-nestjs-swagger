@@ -99,4 +99,4 @@ export class UserController {
 
 ### Examples
 
-See our this [doc](https://github.com/mainfraame/prisma-generator-nestjs-swagger/docs/Example.md) for an example output
+See our this [doc](https://github.com/mainfraame/prisma-generator-nestjs-swagger/blob/main/docs/Example.md) for an example output
