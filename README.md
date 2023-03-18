@@ -17,7 +17,7 @@ filtering and ordering.
 
 1. Install the generator
 
-```
+```bash
 npm i prisma-generator-nestjs-swagger
 ```
 
@@ -37,7 +37,7 @@ node_modules/@generated/swagger
 
 3. Add the SwaggerSerializer as a global pipe **_(optional)_**:
 
-```
+```typescript
 import { SwaggerSerializer } from '@generated/swagger';
 
 async function bootstrap() {
