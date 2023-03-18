@@ -1,0 +1,8 @@
+ignores: [
+  "dist",
+  "@trivago/prettier-plugin-sort-imports",
+  "@nestjs/swagger",
+  "@prisma/client",
+  "class-validator",
+  "class-transformer"
+]

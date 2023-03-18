@@ -1,71 +1,86 @@
 import { transform } from '@swc/core';
 
 import fs from 'fs/promises';
-import { dirname } from 'path';
+import { basename, dirname } from 'path';
 
 import { formatFile } from './formatFile';
 
 export const writeFileSafely = async (path: string, content: any) => {
-  await fs.mkdir(dirname(path), {
+  const isNodeModules = path.includes('node_modules');
+
+  const srcDir = `${dirname(path)}${isNodeModules ? '/src' : ''}`;
+  const distDir = `${dirname(path)}/dist`;
+
+  await fs.mkdir(srcDir, {
     recursive: true
   });
 
+  if (isNodeModules) {
+    await fs.mkdir(distDir, {
+      recursive: true
+    });
+  }
+
+  const srcFile = `${srcDir}/${basename(path)}`;
+  const cjsFile = `${distDir}/${basename(path).replace(/\.ts$/, '.cjs')}`;
+  const jsFile = `${distDir}/${basename(path).replace(/\.ts$/, '.js')}`;
+
   /** write ts */
-  await fs.writeFile(path, await formatFile(content));
+  await fs.writeFile(srcFile, await formatFile(content));
 
-  /** write esm */
-  await fs.writeFile(
-    path.includes('node_modules') ? path.replace(/\.ts$/, '.js') : path,
-    path.includes('node_modules')
-      ? (
-          await transform(await formatFile(content), {
-            jsc: {
-              target: 'es2020',
-              parser: {
-                syntax: 'typescript',
-                decorators: true
-              },
-              transform: {
-                legacyDecorator: true,
-                decoratorMetadata: true
-              },
-              keepClassNames: true
+  if (isNodeModules) {
+    /** write esm */
+    await fs.writeFile(
+      jsFile,
+      (
+        await transform(await formatFile(content), {
+          jsc: {
+            target: 'es2020',
+            parser: {
+              syntax: 'typescript',
+              decorators: true
             },
-            module: {
-              type: 'es6',
-              strict: true
+            transform: {
+              legacyDecorator: true,
+              decoratorMetadata: true
             },
-            sourceMaps: 'inline'
-          })
-        ).code
-      : await formatFile(content)
-  );
+            keepClassNames: true
+          },
+          module: {
+            type: 'es6',
+            strict: true
+          },
+          sourceMaps: 'inline'
+        })
+      ).code
+    );
+  }
 
-  /** write cjs */
-  await fs.writeFile(
-    path.includes('node_modules') ? path.replace(/\.ts$/, '.cjs') : path,
-    path.includes('node_modules')
-      ? (
-          await transform(await formatFile(content), {
-            jsc: {
-              target: 'es2020',
-              parser: {
-                syntax: 'typescript',
-                decorators: true
-              },
-              transform: {
-                legacyDecorator: true,
-                decoratorMetadata: true
-              },
-              keepClassNames: true
+  if (isNodeModules) {
+    /** write cjs */
+    await fs.writeFile(
+      cjsFile,
+      (
+        await transform(await formatFile(content), {
+          jsc: {
+            target: 'es2020',
+            parser: {
+              syntax: 'typescript',
+              decorators: true
             },
-            module: {
-              type: 'commonjs',
-              strict: true
+            transform: {
+              legacyDecorator: true,
+              decoratorMetadata: true
             },
-            sourceMaps: 'inline'
-          })
-        ).code
-      : await formatFile(content)
-  );
+            keepClassNames: true
+          },
+          module: {
+            type: 'commonjs',
+            strict: true
+          },
+          sourceMaps: 'inline'
+        })
+      ).code
+    );
+  }
 };

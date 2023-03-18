@@ -3,21 +3,19 @@ import {
   generatorHandler,
   GeneratorOptions
 } from '@prisma/generator-helper';
-import { logger } from '@prisma/internals';
 
 import fs from 'fs/promises';
 import path from 'path';
+import { performance } from 'perf_hooks';
 
-import { GENERATOR_NAME } from './constants';
 import { generateDtos } from './helpers/generateDtos';
-
-const { version } = require('../package.json');
+import { log } from './utils/log';
 
 type Settings = Partial<
   GeneratorConfig & {
-    prettyName?: string;
     defaultOutput?: string;
-    version?: string;
+    startTime?: number;
+    isNodeModulesDir?: boolean;
   }
 >;
 
@@ -33,6 +31,7 @@ generatorHandler({
       }
 
       await fs.mkdir(settings.defaultOutput, { recursive: true });
+
       await generateDtos(options.dmmf, settings.defaultOutput);
 
       if (settings.defaultOutput.includes('node_modules')) {
@@ -43,9 +42,18 @@ generatorHandler({
               name: '@generated/swagger',
               description: 'auto generated nestjs swagger dtos',
               version: '1.0.0',
-              main: 'index.cjs',
-              module: 'index.js',
-              types: 'index.ts',
+              main: './dist/index.cjs',
+              module: './dist/index.js',
+              types: './src/index.ts',
+              exports: {
+                '.': {
+                  types: './src/index.ts',
+                  import: './dist/index.js',
+                  default: './dist/index.cjs'
+                },
+                './package.json': './package.json'
+              },
+              files: ['dist', 'src'],
               license: 'MIT',
               peerDependencies: {
                 '@nestjs/swagger': '*',
@@ -60,21 +68,32 @@ generatorHandler({
         );
       }
 
-      logger.info(`${GENERATOR_NAME}::completed`);
+      log.success(
+        'Generated NestJs DTOs',
+        `to ${settings.defaultOutput.replace(process.cwd(), '')} in ${(
+          performance.now() - settings.startTime
+        ).toFixed(0)}ms`
+      );
     } catch (e) {
-      logger.error(`${GENERATOR_NAME}::error`, e);
+      log.error('Failed To Generate NestJs DTOs', {
+        message: e.message,
+        stack: e.stack
+      });
+
       process.exit(1);
     }
   },
   onManifest(config: Settings) {
+    const defaultOutput = path.join(
+      process.cwd(),
+      config.defaultOutput ?? 'node_modules/@generated/swagger'
+    );
+
     settings = {
       ...config,
-      defaultOutput: path.join(
-        process.cwd(),
-        config.defaultOutput ?? 'node_modules/@generated/swagger'
-      ),
-      prettyName: GENERATOR_NAME,
-      version
+      defaultOutput,
+      isNodeModulesDir: defaultOutput.includes('node_modules'),
+      startTime: performance.now()
     };
 
     return settings;

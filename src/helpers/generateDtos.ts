@@ -93,8 +93,7 @@ export async function generateDtos(dmmf, outputPath) {
       `DeleteWhere${model.name}Dto`,
       `FindMany${model.name}Dto`,
       `FindUnique${model.name}Dto`,
-      `Update${model.name}Dto`,
-      `UpdateWhere${model.name}Dto`
+      `Update${model.name}Dto`
     ];
 
     exports.push(`export { ${classes.join(', ')} } from './${model.name}Dto';`);
@@ -112,34 +111,5 @@ export async function generateDtos(dmmf, outputPath) {
   await writeFileSafely(
     `${outputPath}/SwaggerSerializer.ts`,
     generateSerializerInterceptor()
-  );
-
-  await fs.writeFile(
-    `${outputPath}/tsconfig.json`,
-    JSON.stringify(
-      {
-        compilerOptions: {
-          target: 'ES2018',
-          module: 'commonjs',
-          lib: ['esnext'],
-          strict: false,
-          strictPropertyInitialization: false,
-          esModuleInterop: true,
-          experimentalDecorators: true,
-          emitDecoratorMetadata: true,
-          skipLibCheck: true,
-          forceConsistentCasingInFileNames: true,
-          removeComments: true,
-          sourceMap: true,
-          baseUrl: '.',
-          moduleResolution: 'Node',
-          outDir: './dist',
-          rootDir: './src',
-          newLine: 'lf'
-        }
-      },
-      null,
-      2
-    )
   );
 }
