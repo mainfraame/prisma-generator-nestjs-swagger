@@ -49,7 +49,7 @@ async function bootstrap() {
 }
 ```
 
-_\*_ This is a wrapper around [ValidationPipe](https://docs.nestjs.com/techniques/validation) that invokes
+_*_ This is a wrapper around [ValidationPipe](https://docs.nestjs.com/techniques/validation) that invokes
 a serialized method no the generated DTOs.
 
 4. Import & use the generated DTOs (based on code generated in example):
@@ -67,7 +67,7 @@ export class UserController {
   }
 
   @Get('/users')
-  async getUsers(@Query() query: FindManyUserDto, @Req() req, @Res() res) {
+  async getUsers(@Query() query: FindManyUserDto, @Res() res) {
     const value = await this.prisma.user.findMany({
       cursor: query.cursor,
       orderBy: query.orderBy,
