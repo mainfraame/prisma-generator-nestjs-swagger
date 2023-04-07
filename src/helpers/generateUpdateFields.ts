@@ -34,7 +34,8 @@ export function generateUpdateFields(model) {
 
         return `@ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
-      private ${field.name}${optional}: ${tsType};`;
+      ${field.name}${optional}: ${tsType};`;
+        // private ${field.name}${optional}: ${tsType};`;
       })
       .join('\n\n')}
     
@@ -47,29 +48,32 @@ export function generateUpdateFields(model) {
 
         return `@ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
-      private ${field.name}${optional}: ${tsType};`;
+      ${field.name}${optional}: ${tsType};`;
+        // private ${field.name}${optional}: ${tsType};`;
       })
       .join('\n\n')}
       
-    data?: Prisma.${model.name}UpdateArgs['data'];
 
-    where?: Prisma.${model.name}UpdateArgs['where'];
-    
-    private serialize(value): Prisma.${model.name}UpdateArgs {
-      return {
-        data: [${nonUniqueFields
-          .map((field) => `'${field.name}'`)
-          .join(', ')}].reduce((acc, key) => ({
-          ...acc,
-          ...value[key] !== undefined ? { [key]: value[key] } : {}
-        }), {}),
-        where: [${uniqueFields
-          .map((field) => `'${field.name}'`)
-          .join(', ')}].reduce((acc, key) => ({
-            ...acc,
-            ...value[key] !== undefined ? { [key]: value[key] } : {}
-          }), {}),
-      }
-    }
   `;
+
+  //     data?: Prisma.${model.name}UpdateArgs['data'];
+  //
+  //     where?: Prisma.${model.name}UpdateArgs['where'];
+  //
+  //     private serialize(value): Prisma.${model.name}UpdateArgs {
+  //       return {
+  //         data: [${nonUniqueFields
+  //           .map((field) => `'${field.name}'`)
+  //           .join(', ')}].reduce((acc, key) => ({
+  //           ...acc,
+  //           ...value[key] !== undefined ? { [key]: value[key] } : {}
+  //         }), {}),
+  //         where: [${uniqueFields
+  //           .map((field) => `'${field.name}'`)
+  //           .join(', ')}].reduce((acc, key) => ({
+  //             ...acc,
+  //             ...value[key] !== undefined ? { [key]: value[key] } : {}
+  //           }), {}),
+  //       }
+  //     }
 }

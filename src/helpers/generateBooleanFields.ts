@@ -12,10 +12,11 @@ export function generateBooleanFields(model, includeFilters = false) {
             ? `@Transform(({value}) => typeof value === 'string' ? Boolean(value) : value)`
             : ''
         }
-        @ApiProperty({ required: ${field.isRequired} })
+        @ApiProperty({ type: () => Boolean, required: ${field.isRequired} })
         ${field.isRequired ? '' : '@IsOptional()'}
         @IsBoolean()
-        ${includeFilters ? 'private ' : ''}${field.name}${
+        ${field.name}${
+        // ${includeFilters ? 'private ' : ''}${field.name}${
         field.isRequired ? '' : '?'
       }: boolean;
       `;

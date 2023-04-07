@@ -10,7 +10,8 @@ export function generateJsonFields(model, includeFilters = false) {
         @ApiProperty({ required: ${field.isRequired} })
         ${field.isRequired ? '' : '@IsOptional()'}
         @IsObject()
-        ${includeFilters ? 'private ' : ''}${field.name}${
+        ${field.name}${
+        // ${includeFilters ? 'private ' : ''}${field.name}${
         field.isRequired ? '' : '?'
       }: ${
         field.isRequired

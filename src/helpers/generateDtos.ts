@@ -9,8 +9,8 @@ import { generateFindManyFields } from './generateFindManyFields';
 import { generateFindUniqueFields } from './generateFindUniqueFields';
 import { generateJsonFields } from './generateJsonFields';
 import { generateNumericFields } from './generateNumericFields';
-import { generateSerializeDto } from './generateSerializeDto';
-import { generateSerializerInterceptor } from './generateSerializerInterceptor';
+// import { generateSerializeDto } from './generateSerializeDto';
+// import { generateSerializerInterceptor } from './generateSerializerInterceptor';
 import { generateStringFields } from './generateStringFields';
 import { generateUpdateFields } from './generateUpdateFields';
 
@@ -45,13 +45,14 @@ export async function generateDtos(dmmf, outputPath) {
       return code.includes('Prisma');
     });
 
+    //import { serializer } from './serializer';
+
     const content = `
       import { ApiProperty } from '@nestjs/swagger';
       ${includePrisma ? `import { Prisma } from '@prisma/client';` : ''}
       
       import { Transform } from 'class-transformer';
       import { IsDate, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
-      import { serializer } from './serializer';
       
       export class ${model.name}Dto {
         ${fields}
@@ -68,17 +69,17 @@ export async function generateDtos(dmmf, outputPath) {
       export class FindMany${model.name}Dto {
         ${findManyFields}
         
-        private serialize(value): Prisma.${model.name}FindManyArgs {
-          return serializer<Prisma.${model.name}FindManyArgs>(value);
-        }
+        // private serialize(value): Prisma.${model.name}FindManyArgs {
+        //   return serializer<Prisma.${model.name}FindManyArgs>(value);
+        // }
       }
       
       export class FindUnique${model.name}Dto {
         ${findUniqueFields}
         
-        private serialize(value): Prisma.${model.name}FindUniqueArgs {
-          return serializer<Prisma.${model.name}FindUniqueArgs>(value);
-        }
+        // private serialize(value): Prisma.${model.name}FindUniqueArgs {
+        //   return serializer<Prisma.${model.name}FindUniqueArgs>(value);
+        // }
       }
                  
       export class Update${model.name}Dto {
@@ -101,15 +102,15 @@ export async function generateDtos(dmmf, outputPath) {
     await writeFileSafely(`${outputPath}/${model.name}Dto.ts`, content);
   }
 
-  exports.push(`export { SwaggerSerializer } from './SwaggerSerializer';`);
-  exports.push(`export { serializer } from './serializer';`);
+  // exports.push(`export { SwaggerSerializer } from './SwaggerSerializer';`);
+  // exports.push(`export { serializer } from './serializer';`);
 
   await writeFileSafely(`${outputPath}/index.ts`, exports.join('\n'));
 
-  await writeFileSafely(`${outputPath}/serializer.ts`, generateSerializeDto());
+  // await writeFileSafely(`${outputPath}/serializer.ts`, generateSerializeDto());
 
-  await writeFileSafely(
-    `${outputPath}/SwaggerSerializer.ts`,
-    generateSerializerInterceptor()
-  );
+  // await writeFileSafely(
+  //   `${outputPath}/SwaggerSerializer.ts`,
+  //   generateSerializerInterceptor()
+  // );
 }

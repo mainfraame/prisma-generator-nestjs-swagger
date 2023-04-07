@@ -33,7 +33,7 @@ export function generateFindUniqueFields(model) {
       ${transformType ? `@Transform(${transformType})` : ''}
       @ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
-      private ${field.name}${optional}: ${tsType};
+      ${field.name}${optional}: ${tsType};
       `;
     })
     .join('\n\n');
@@ -41,6 +41,6 @@ export function generateFindUniqueFields(model) {
   return `
     ${apiFields}
     
-    where?: Prisma.${model.name}WhereUniqueInput;
+    // where?: Prisma.${model.name}WhereUniqueInput;
   `;
 }
