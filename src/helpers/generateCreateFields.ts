@@ -18,6 +18,7 @@ export function generateCreateFields(model) {
 
       return `@ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
+      ${field.isRequired ? '' : '@IsOptional()'}
       ${field.name}${optional}: ${tsType};`;
     })
     .join('\n\n');

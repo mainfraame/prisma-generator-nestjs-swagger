@@ -48,6 +48,7 @@ export function generateUpdateFields(model) {
 
         return `@ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
+      ${field.isRequired ? '' : '@IsOptional()'}
       ${field.name}${optional}: ${tsType};`;
         // private ${field.name}${optional}: ${tsType};`;
       })
