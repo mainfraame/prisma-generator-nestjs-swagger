@@ -76,6 +76,12 @@ export class UserDto {
   @IsNumber()
   id: number;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsNumber()
+  employeeOldId?: number;
+
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
@@ -89,26 +95,32 @@ export class UserDto {
 
 export class CreateUserDto {
   @ApiProperty({ required: false })
+  @IsOptional()
   config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
 
   @ApiProperty({ required: false })
   @IsDate()
+  @IsOptional()
   createdAt?: Date;
 
   @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   email?: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ required: false })
   @IsNumber()
-  id: number;
+  @IsOptional()
+  employeeOldId?: number;
 
   @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   password?: string;
 
   @ApiProperty({ required: false })
   @IsDate()
+  @IsOptional()
   updatedAt?: Date;
 }
 
@@ -146,6 +158,12 @@ export class FindManyUserDto {
   @IsNumber()
   id?: number;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
+  @ApiProperty({ required: false })
+  @IsOptional()
+  @IsNumber()
+  employeeOldId?: number;
+
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
@@ -162,6 +180,39 @@ export class FindUniqueUserDto {
   @ApiProperty({ required: true })
   @IsNumber()
   id: number;
+
+  // where?: Prisma.UserWhereUniqueInput;
+}
+
+export class PatchUserDto {
+  @ApiProperty({ required: false })
+  @IsOptional()
+  config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
+
+  @ApiProperty({ required: false })
+  @IsDate()
+  @IsOptional()
+  createdAt?: Date;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  email?: string;
+
+  @ApiProperty({ required: false })
+  @IsNumber()
+  @IsOptional()
+  employeeOldId?: number;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  @IsOptional()
+  password?: string;
+
+  @ApiProperty({ required: false })
+  @IsDate()
+  @IsOptional()
+  updatedAt?: Date;
 }
 
 export class UpdateUserDto {
@@ -170,22 +221,32 @@ export class UpdateUserDto {
   id: number;
 
   @ApiProperty({ required: false })
+  @IsNumber()
+  @IsOptional()
+  employeeOldId?: number;
+
+  @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   email?: string;
 
   @ApiProperty({ required: false })
   @IsString()
+  @IsOptional()
   password?: string;
 
   @ApiProperty({ required: false })
   @IsDate()
+  @IsOptional()
   createdAt?: Date;
 
   @ApiProperty({ required: false })
   @IsDate()
+  @IsOptional()
   updatedAt?: Date;
 
   @ApiProperty({ required: false })
+  @IsOptional()
   config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
 }
 ```
@@ -199,6 +260,7 @@ export {
   DeleteWhereUserDto,
   FindManyUserDto,
   FindUniqueUserDto,
+  PatchUserDto,
   UpdateUserDto
 } from './UserDto';
 ```

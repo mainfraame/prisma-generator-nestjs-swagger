@@ -9,6 +9,7 @@ import { generateFindManyFields } from './generateFindManyFields';
 import { generateFindUniqueFields } from './generateFindUniqueFields';
 import { generateJsonFields } from './generateJsonFields';
 import { generateNumericFields } from './generateNumericFields';
+import { generatePatchFields } from './generatePatchFields';
 // import { generateSerializeDto } from './generateSerializeDto';
 // import { generateSerializerInterceptor } from './generateSerializerInterceptor';
 import { generateStringFields } from './generateStringFields';
@@ -32,6 +33,7 @@ export async function generateDtos(dmmf, outputPath) {
     const findManyFields = generateFindManyFields(model);
     const findUniqueFields = generateFindUniqueFields(model);
     const deleteWhereFields = generateDeleteWhereFields(model);
+    const patchFields = generatePatchFields(model);
     const updateFields = generateUpdateFields(model);
 
     const includePrisma = [
@@ -68,20 +70,16 @@ export async function generateDtos(dmmf, outputPath) {
            
       export class FindMany${model.name}Dto {
         ${findManyFields}
-        
-        // private serialize(value): Prisma.${model.name}FindManyArgs {
-        //   return serializer<Prisma.${model.name}FindManyArgs>(value);
-        // }
       }
       
       export class FindUnique${model.name}Dto {
         ${findUniqueFields}
-        
-        // private serialize(value): Prisma.${model.name}FindUniqueArgs {
-        //   return serializer<Prisma.${model.name}FindUniqueArgs>(value);
-        // }
       }
-                 
+            
+      export class Patch${model.name}Dto {
+        ${patchFields}
+      }
+           
       export class Update${model.name}Dto {
         ${updateFields}
       }
@@ -94,6 +92,7 @@ export async function generateDtos(dmmf, outputPath) {
       `DeleteWhere${model.name}Dto`,
       `FindMany${model.name}Dto`,
       `FindUnique${model.name}Dto`,
+      `Patch${model.name}Dto`,
       `Update${model.name}Dto`
     ];
 
@@ -102,15 +101,5 @@ export async function generateDtos(dmmf, outputPath) {
     await writeFileSafely(`${outputPath}/${model.name}Dto.ts`, content);
   }
 
-  // exports.push(`export { SwaggerSerializer } from './SwaggerSerializer';`);
-  // exports.push(`export { serializer } from './serializer';`);
-
   await writeFileSafely(`${outputPath}/index.ts`, exports.join('\n'));
-
-  // await writeFileSafely(`${outputPath}/serializer.ts`, generateSerializeDto());
-
-  // await writeFileSafely(
-  //   `${outputPath}/SwaggerSerializer.ts`,
-  //   generateSerializerInterceptor()
-  // );
 }
