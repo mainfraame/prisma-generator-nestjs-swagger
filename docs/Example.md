@@ -205,6 +205,11 @@ export class PatchUserDto {
   employeeOldId?: number;
 
   @ApiProperty({ required: false })
+  @IsNumber()
+  @IsOptional()
+  id?: number;
+
+  @ApiProperty({ required: false })
   @IsString()
   @IsOptional()
   password?: string;
