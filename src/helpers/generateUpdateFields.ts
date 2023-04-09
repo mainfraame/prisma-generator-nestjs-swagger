@@ -2,6 +2,7 @@ import { orderBy } from 'lodash';
 
 import { mapPrismaTypeToClassValidator } from './mapPrismaTypeToClassValidator';
 import { mapPrismaTypeToTsType } from './mapPrismaTypeToTsType';
+import { mapTransformerType } from './mapTransformerType';
 
 export function generateUpdateFields(model) {
   const parsedFields = orderBy(
@@ -29,10 +30,12 @@ export function generateUpdateFields(model) {
       .map((field) => {
         const classValidator = mapPrismaTypeToClassValidator(field.type);
         const tsType = mapPrismaTypeToTsType(field.type);
+        const transformType = mapTransformerType(field.type);
 
         const optional = field.isRequired ? '' : '?';
 
-        return `@ApiProperty({ required: ${field.isRequired} })
+        return `${transformType ? `@Transform(${transformType})` : ''}
+        @ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
       ${field.name}${optional}: ${tsType};`;
         // private ${field.name}${optional}: ${tsType};`;
@@ -43,10 +46,12 @@ export function generateUpdateFields(model) {
       .map((field) => {
         const classValidator = mapPrismaTypeToClassValidator(field.type);
         const tsType = mapPrismaTypeToTsType(field.type);
+        const transformType = mapTransformerType(field.type);
 
         const optional = field.isRequired ? '' : '?';
 
-        return `@ApiProperty({ required: ${field.isRequired} })
+        return `${transformType ? `@Transform(${transformType})` : ''}
+        @ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
       ${field.isRequired ? '' : '@IsOptional()'}
       ${field.name}${optional}: ${tsType};`;

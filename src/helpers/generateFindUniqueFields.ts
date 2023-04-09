@@ -40,7 +40,5 @@ export function generateFindUniqueFields(model) {
 
   return `
     ${apiFields}
-    
-    // where?: Prisma.${model.name}WhereUniqueInput;
   `;
 }

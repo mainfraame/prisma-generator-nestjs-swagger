@@ -22,8 +22,4 @@ export function generateFindManyFields(model) {
   return `
     ${apiProperties}
   `;
-
-  // where?: Prisma.${model.name}WhereInput;
-  //
-  // orderBy?: Prisma.Enumerable<Prisma.${model.name}OrderByWithRelationInput>;
 }

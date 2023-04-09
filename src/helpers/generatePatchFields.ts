@@ -2,6 +2,7 @@ import { orderBy } from 'lodash';
 
 import { mapPrismaTypeToClassValidator } from './mapPrismaTypeToClassValidator';
 import { mapPrismaTypeToTsType } from './mapPrismaTypeToTsType';
+import { mapTransformerType } from './mapTransformerType';
 
 export function generatePatchFields(model) {
   return orderBy(
@@ -13,8 +14,10 @@ export function generatePatchFields(model) {
     .map((field) => {
       const classValidator = mapPrismaTypeToClassValidator(field.type);
       const tsType = mapPrismaTypeToTsType(field.type);
+      const transformType = mapTransformerType(field.type);
 
-      return `@ApiProperty({ required: false })
+      return `${transformType ? `@Transform(${transformType})` : ''}
+      @ApiProperty({ required: false })
       ${classValidator ? `${classValidator}\n` : ''}
       @IsOptional()
       ${field.name}?: ${tsType};`;

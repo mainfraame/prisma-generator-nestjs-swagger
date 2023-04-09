@@ -98,6 +98,9 @@ export class CreateUserDto {
   @IsOptional()
   config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? new Date(value) : value
+  )
   @ApiProperty({ required: false })
   @IsDate()
   @IsOptional()
@@ -108,6 +111,7 @@ export class CreateUserDto {
   @IsOptional()
   email?: string;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
@@ -118,6 +122,9 @@ export class CreateUserDto {
   @IsOptional()
   password?: string;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? new Date(value) : value
+  )
   @ApiProperty({ required: false })
   @IsDate()
   @IsOptional()
@@ -180,8 +187,6 @@ export class FindUniqueUserDto {
   @ApiProperty({ required: true })
   @IsNumber()
   id: number;
-
-  // where?: Prisma.UserWhereUniqueInput;
 }
 
 export class PatchUserDto {
@@ -189,6 +194,9 @@ export class PatchUserDto {
   @IsOptional()
   config?: Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? new Date(value) : value
+  )
   @ApiProperty({ required: false })
   @IsDate()
   @IsOptional()
@@ -199,11 +207,13 @@ export class PatchUserDto {
   @IsOptional()
   email?: string;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
   employeeOldId?: number;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
@@ -214,6 +224,9 @@ export class PatchUserDto {
   @IsOptional()
   password?: string;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? new Date(value) : value
+  )
   @ApiProperty({ required: false })
   @IsDate()
   @IsOptional()
@@ -221,10 +234,12 @@ export class PatchUserDto {
 }
 
 export class UpdateUserDto {
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: true })
   @IsNumber()
   id: number;
 
+  @Transform(({ value }) => (typeof value === 'string' ? +value : value))
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
@@ -240,11 +255,17 @@ export class UpdateUserDto {
   @IsOptional()
   password?: string;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? new Date(value) : value
+  )
   @ApiProperty({ required: false })
   @IsDate()
   @IsOptional()
   createdAt?: Date;
 
+  @Transform(({ value }) =>
+    typeof value === 'string' ? new Date(value) : value
+  )
   @ApiProperty({ required: false })
   @IsDate()
   @IsOptional()
