@@ -54,7 +54,7 @@ export async function generateDtos(dmmf, outputPath) {
       ${includePrisma ? `import { Prisma } from '@prisma/client';` : ''}
       
       import { Transform } from 'class-transformer';
-      import { IsDate, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
+      import { IsDate, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, ValidateIf } from 'class-validator';
       
       export class ${model.name}Dto {
         ${fields}

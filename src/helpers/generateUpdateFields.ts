@@ -38,7 +38,6 @@ export function generateUpdateFields(model) {
         @ApiProperty({ required: ${field.isRequired} })
       ${classValidator ? `${classValidator}\n` : ''}
       ${field.name}${optional}: ${tsType};`;
-        // private ${field.name}${optional}: ${tsType};`;
       })
       .join('\n\n')}
     
@@ -51,16 +50,18 @@ export function generateUpdateFields(model) {
         const optional = field.isRequired ? '' : '?';
 
         return `${transformType ? `@Transform(${transformType})` : ''}
-        @ApiProperty({ required: ${field.isRequired} })
+        @ApiProperty({ required: ${field.isRequired}${
+          optional ? ' , nullable: true' : ''
+        }})
       ${classValidator ? `${classValidator}\n` : ''}
-      ${field.isRequired ? '' : '@IsOptional()'}
+      ${
+        field.isRequired
+          ? ''
+          : '@IsOptional()\n@ValidateIf((object, value) => value !== null)\n'
+      }
       ${field.name}${optional}: ${tsType};`;
-        // private ${field.name}${optional}: ${tsType};`;
       })
-      .join('\n\n')}
-      
-
-  `;
+      .join('\n\n')}`;
 
   //     data?: Prisma.${model.name}UpdateArgs['data'];
   //
