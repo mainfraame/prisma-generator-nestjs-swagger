@@ -51,9 +51,7 @@ export function generateUpdateFields(model) {
 
         return `${transformType ? `@Transform(${transformType})` : ''}
         @ApiProperty({ ${
-          ['Date', 'DateTime'].includes(field.type)
-            ? 'type: () => String, '
-            : ''
+          ['Date', 'DateTime'].includes(field.type) ? 'type: () => Date, ' : ''
         } required: ${field.isRequired}${optional ? ' , nullable: true' : ''}})
       ${classValidator ? `${classValidator}\n` : ''}
       ${
