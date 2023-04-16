@@ -10,40 +10,12 @@ export function generateDateFields(model, includeFilters = false) {
     }))
     .map((field) => {
       return `@Transform(${field.transformType})
-    @ApiProperty({ format: 'date-time', required: ${field.isRequired} })
+    @ApiProperty({ type: () => String, format: 'date-time', required: ${
+      field.isRequired
+    } })
     ${field.isRequired ? '' : '@IsOptional()'}
     @IsDate()
-    ${field.name}${
-        // ${includeFilters ? 'private ' : ''}${field.name}${
-        field.isRequired ? '' : '?'
-      }: Date;`;
-
-      //     const filters = `
-      //   @Transform(${field.transformType})
-      //   @ApiProperty({ format: 'date-time', required: false })
-      //   @IsOptional()
-      //   @IsDate()
-      //   ${includeFilters ? 'private ' : ''}${field.name}__lt?: Date;
-      //
-      //   @Transform(${field.transformType})
-      //   @ApiProperty({ format: 'date-time', required: false })
-      //   @IsOptional()
-      //   @IsDate()
-      //   ${includeFilters ? 'private ' : ''}${field.name}__lte?: Date;
-      //
-      //   @Transform(${field.transformType})
-      //   @ApiProperty({ format: 'date-time', required: false })
-      //   @IsOptional()
-      //   @IsDate()
-      //   ${includeFilters ? 'private ' : ''}${field.name}__gt?: Date;
-      //
-      //   @Transform(${field.transformType})
-      //   @ApiProperty({ format: 'date-time', required: false })
-      //   @IsOptional()
-      //   @IsDate()
-      //   ${includeFilters ? 'private ' : ''}${field.name}__gte?: Date;
-      // `;
-      //     return `${code}${includeFilters ? filters : ''}`;
+    ${field.name}${field.isRequired ? '' : '?'}: Date;`;
     })
     .join('\n\n');
 }

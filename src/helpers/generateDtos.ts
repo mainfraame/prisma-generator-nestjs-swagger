@@ -47,8 +47,6 @@ export async function generateDtos(dmmf, outputPath) {
       return code.includes('Prisma');
     });
 
-    //import { serializer } from './serializer';
-
     const content = `
       import { ApiProperty } from '@nestjs/swagger';
       ${includePrisma ? `import { Prisma } from '@prisma/client';` : ''}

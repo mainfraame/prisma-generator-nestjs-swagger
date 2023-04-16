@@ -50,9 +50,11 @@ export function generateUpdateFields(model) {
         const optional = field.isRequired ? '' : '?';
 
         return `${transformType ? `@Transform(${transformType})` : ''}
-        @ApiProperty({ required: ${field.isRequired}${
-          optional ? ' , nullable: true' : ''
-        }})
+        @ApiProperty({ ${
+          ['Date', 'DateTime'].includes(field.type)
+            ? 'type: () => String, '
+            : ''
+        } required: ${field.isRequired}${optional ? ' , nullable: true' : ''}})
       ${classValidator ? `${classValidator}\n` : ''}
       ${
         field.isRequired
