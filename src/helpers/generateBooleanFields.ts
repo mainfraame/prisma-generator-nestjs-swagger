@@ -9,7 +9,7 @@ export function generateBooleanFields(model, includeFilters = false) {
       return `
         ${
           includeFilters
-            ? `@Transform(({value}) => typeof value === 'string' ? Boolean(value) : value)`
+            ? `@Transform(({value}) => typeof value === 'string' ? value === 'true' : value)`
             : ''
         }
         @ApiProperty({ type: () => Boolean, required: ${field.isRequired} })
